@@ -1,0 +1,21 @@
+name: .NET CI Pipeline
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.202'
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build the application
+        run: dotnet build --configuration Release --no-restore
+      - name: Run tests
+        run: dotnet test --no-restore --verbosity normal
